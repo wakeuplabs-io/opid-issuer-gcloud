@@ -105,10 +105,10 @@ export STATIC_IP='YOUR STATIC IP'                       # Provide the Static IP 
 export UI_PASSWORD='ui password'                        # Password to login the UI
 export ISSUER_NAME='YOUR DESIRED ISSUER NAME'           # Provide the Issuer Name.
 export MAINNET='true'                                   #'False' if you want to use testnet.
-export ETHEREUMURL='URL LINK OF BLOCKCHAIN NETWORK'
+export ETHEREUM_URL='URL LINK OF BLOCKCHAIN NETWORK'
 export VAULT_PASSWORD="PASSWORD TO ACCESS VAULT SEVER"  # Vault password that will be used by application to access vault server
-export RHSMODE="None"                                   # None| OnChain | OffChain
-export RHSURL="https://rhs-staging.polygonid.me/"       # Reuired if RHSMODE is OffChain
+export RHS_MODE="None"                                   # None| OnChain | OffChain
+export RHS_URL="https://rhs-staging.polygonid.me/"       # Reuired if RHS_MODE is OffChain
 ```
 
 Remove the `--set staticip="$STATIC_IP"` if you don't have static IP; ingress resource will automatically creates an IP address.
@@ -136,10 +136,10 @@ helm install "$APP_INSTANCE_NAME" chart/polygon-id-issuer \
   --set issuerName="$ISSUER_NAME" \
   --set uiPassword="$UI_PASSWORD" \
   --set mainnet="$MAINNET" \
-  --set ethereumUrl="$ETHEREUMURL" \
+  --set ethereumUrl="$ETHEREUM_URL" \
   --set vaultpwd="$VAULT_PASSWORD" \
-  --set rhsmode="$RHSMODE" \
-  --set rhsurl="$RHSURL"
+  --set rhsmode="$RHS_MODE" \
+  --set rhsurl="$RHS_URL"
 ```
 
 # Using the app

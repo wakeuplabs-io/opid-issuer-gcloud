@@ -261,7 +261,7 @@ app: {{ .Values.postgresIssuerNode.deployment.labels.app }}
 Define custom service selectorLabels for redis
 */}}
 {{- define "optimism-id-issuer.redisIssuerNode.Labels" -}}
-app: {{ .Values.redisIssuerNode.service.selector }}
+app: {{ .Values.redisIssuerNode.deployment.labels.app }}
 {{- end }}
 
 

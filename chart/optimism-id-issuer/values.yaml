@@ -72,7 +72,7 @@ apiIssuerNode:
     issuerProverServerUrl: http://localhost:8002
     issuerProverTimeout: 600s
     issuerPublishKeyPath: pbkey
-    issuerRedisUrl: redis://@redis-issuer-node-svc:6379/1
+    issuerRedisUrl: redis://redis-issuer-node-svc:6379/1
     issuerReverseHashServiceEnabled: "false"
     issuerServerPort: "3001"
     issuerName: issuer-node-api-configmap
@@ -257,7 +257,7 @@ redisIssuerNode:
       tag: 'alpine'
     resources:
       limits:
-        cpu: "1"
+        cpu: "0.5"
         memory: 2Gi
       requests:
         cpu: "0.5"
@@ -383,6 +383,7 @@ vaultIssuerNode:
       vault plugin register -sha256=$IDEN3_PLUGIN_SHA256 vault-plugin-secrets-iden3
       vault secrets enable -path=iden3 vault-plugin-secrets-iden3
       vault secrets enable -path=kv kv-v2
+
       chmod 755 /vault/file -R
 
       vault write iden3/import/pbkey key_type=ethereum private_key=$PRIVATE_KEY
@@ -396,9 +397,19 @@ vaultIssuerNode:
 
       echo "===== CREATE USERS ====="
       vault auth enable userpass
-      vault write auth/userpass/users/issuernode \
-          password={{ .Values.vaultpwd }} \
-          policies="admins,issuernode"
+
+      result=$(vault read auth/userpass/users/issuernode 2>&1)
+      echo $result
+      echo "vault password {{ .Values.vaultpwd }}"
+
+      if [[ "$result" == "No value found at auth/userpass/users/issuernode" ]]; then
+          echo "issuernode user nor found, creating..."
+          vault write auth/userpass/users/issuernode \
+              password={{ .Values.vaultpwd }} \
+              policies="admins,issuernode"
+      else
+          echo "issuernode user found, skipping creation..."
+      fi
 
       echo "===== TEST LOGIN ====="
       vault login -method=userpass username=issuernode password={{ .Values.vaultpwd }}
@@ -479,4 +490,4 @@ issuerKeyType: BJJ
 rhsMode: None
 rhsUrl: nil
 
-issuerCustomDidMethods: ""
+issuerCustomDidMethods: "[]"
