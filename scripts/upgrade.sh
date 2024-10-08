@@ -1,3 +1,4 @@
+source ./secrets.sh
 helm upgrade "$APP_INSTANCE_NAME" chart/optimism-id-issuer \
   --create-namespace  --namespace "$NAMESPACE" \
     --set appdomain="$APP_DOMAIN" \
