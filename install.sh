@@ -1,4 +1,5 @@
-helm upgrade "$APP_INSTANCE_NAME" chart/optimism-id-issuer \
+source ./secrets.sh
+helm install "$APP_INSTANCE_NAME" chart/optimism-id-issuer \
   --create-namespace  --namespace "$NAMESPACE" \
     --set appdomain="$APP_DOMAIN" \
     --set uidomain="$UI_DOMAIN" \

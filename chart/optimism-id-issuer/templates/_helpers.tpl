@@ -102,22 +102,14 @@ Define network
 Define api ui server url
 */}}
 {{- define "helpers.api-ui-server-url" -}}
-{{- if eq .Values.ingressEnabled true }}
 http://{{ .Values.appdomain }}
-{{- else }}
-http://{{ .Values.publicIP }}:{{ .Values.apiUiIssuerNode.service.nodePort }}
-{{- end }}
 {{- end }}
 
 {{/*
 Define api server url
 */}}
 {{- define "helpers.api-server-url" -}}
-{{- if eq .Values.ingressEnabled true }}
 http://{{ .Values.apidomain }}
-{{- else }}
-http://{{ .Values.publicIP }}:{{ .Values.apiIssuerNode.service.nodePort }}
-{{- end }}
 {{- end }}
 
 {{/*

@@ -12,7 +12,7 @@ metadata:
 
 spec:
   rules:
-  - host: "app.34.120.234.21.nip.io"
+  - host: "app.34.54.152.126.nip.io"
     http:
       paths:
         {{- range .Values.ingress.apphost.paths }}
@@ -25,7 +25,7 @@ spec:
                 number: {{ .servicePort }}
         {{- end }}
 
-  - host: "ui.34.120.234.21.nip.io"
+  - host: "ui.34.54.152.126.nip.io"
     http:
       paths:
         {{- range .Values.ingress.uihost.paths }}
@@ -38,7 +38,7 @@ spec:
                 number: {{ .servicePort }}
         {{- end }}
 
-  - host: "api.34.120.234.21.nip.io"
+  - host: "api.34.54.152.126.nip.io"
     http:
       paths:
         {{- range .Values.ingress.apihost.paths }}
