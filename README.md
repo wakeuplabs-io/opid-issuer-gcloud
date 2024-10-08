@@ -2,8 +2,6 @@
 
 Optimism ID issuer refers to the entity responsible for issuing unique identifiers, known as Optimism IDs, on the Optimism network. The Optimism network is a popular Layer 2 scaling solution for Ethereum, designed to improve scalability and reduce transaction costs.
 
-To learn more about Polygon ID issuer, see [this](TODO:).
-
 ## Architecture
 
 ![Architecture diagram](resources/polygon-id-issuer-k8s-app-architecture.png)
@@ -68,28 +66,45 @@ gcloud compute addresses describe ip-name --global
 
 ### Configure the app with environment variables
 
-Choose the instance name and namespace for the app:
+Create ./scripts/secrets.sh
 
 ```shell
-export APP_INSTANCE_NAME=polygon-id-issuer  #Sample name for the application
-export NAMESPACE=default #Namespace where you want to deploy the application
+export APP_INSTANCE_NAME=issuer
+export NAMESPACE=default
+export MAINNET=false
+export RPC_URL="https://opt-sepolia.g.alchemy.com/v2/..."
+export UI_USERNAME=user
+export UI_PASSWORD=password
+export API_UI_USERNAME=user
+export API_UI_PASSWORD=password
+export API_USERNAME=user    
+export API_PASSWORD=password
+export STATIC_IP_NAME="opid"
+export APP_HOST=app.34.54.152.126.nip.io  
+export UI_HOST=ui.34.54.152.126.nip.io    
+export API_HOST=api.34.54.152.126.nip.io  
+export ISSUER_NAME="OPID Issuer"
+export PRIVATE_KEY="5a814bcdce..."
+export VAULT_PASSWORD=password
+export RHS_MODE=OnChain
+export RHS_URL="..."
 ```
 
 ### Install the helm chart
 
+First ensure your kubectl context is pointing to the right project, then run:
+
 ```shell
-helm install "$APP_INSTANCE_NAME" chart/polygon-id-issuer \
-  --create-namespace --namespace "$NAMESPACE" \
-  --set appdomain="$APP_DOMAIN" \
-  --set uidomain="$UI_DOMAIN" \
-  --set apidomain="$API_DOMAIN" \
-  --set privatekey="$PRIVATE_KEY" \
-  --set staticip="$STATIC_IP" \
-  --set issuerName="$ISSUER_NAME" \
-  --set uiPassword="$UI_PASSWORD" \
-  --set mainnet="$MAINNET" \
-  --set ethereumUrl="$ETHEREUM_URL" \
-  --set vaultpwd="$VAULT_PASSWORD" \
-  --set rhsmode="$RHS_MODE" \
-  --set rhsurl="$RHS_URL"
+chmod +x ./scripts/install.sh
+chmod +x ./scripts/uninstall.sh
+chmod +x ./scripts/upgrade.sh
+
+# install
+./scripts/install.sh
+
+# uninstall
+./scripts/uninstall.sh
+
+# upgrade
+./scripts/upgrade.sh
 ```
