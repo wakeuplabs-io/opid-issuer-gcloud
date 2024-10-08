@@ -6,11 +6,7 @@ metadata:
     {{- include "optimism-id-issuer.staticLabel" . | nindent 4 }}
     {{- include "optimism-id-issuer.labels" . | nindent 4 }}
 spec:
-  {{- if .Values.ingressEnabled }}
-  type: ClusterIP
-  {{- else }}
   type: NodePort
-  {{- end }}
   selector:
     {{- include "optimism-id-issuer.uiIssuerNode.Labels" . | nindent 4 }}
     {{- include "optimism-id-issuer.selectorLabels" . | nindent 4 }}
@@ -18,8 +14,6 @@ spec:
   ports: 
     {{-  toYaml . | nindent 2 }}
   {{- end }}
-    {{- if eq .Values.ingressEnabled false}}
     nodePort: {{ .Values.uiIssuerNode.service.nodePort }}
-    {{- end }}
 
 

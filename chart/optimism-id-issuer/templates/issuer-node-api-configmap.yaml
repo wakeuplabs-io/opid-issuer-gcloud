@@ -14,8 +14,8 @@ data:
   ISSUER_ONCHAIN_PUBLISH_STATE_FREQUENCY: {{ .Values.apiIssuerNode.configMap.issuerOnchainPublishStateFrequency }}
   ISSUER_LOG_LEVEL: {{ .Values.apiIssuerNode.configMap.issuerLogLevel | quote }}
   ISSUER_LOG_MODE: {{ .Values.apiIssuerNode.configMap.issuerLogMode | quote }}
-  ISSUER_API_AUTH_PASSWORD: {{ .Values.apiIssuerNode.configMap.issuerApiAuthPassword }}
-  ISSUER_API_AUTH_USER: {{ .Values.apiIssuerNode.configMap.issuerApiAuthUser }}
+  ISSUER_API_AUTH_PASSWORD: {{ .Values.apiPassword }}
+  ISSUER_API_AUTH_USER: {{ .Values.apiUsername }}
   ISSUER_KEY_STORE_PLUGIN_IDEN3_MOUNT_PATH: {{ .Values.apiIssuerNode.configMap.issuerKeyStorePluginIden3MountPath }}
   ISSUER_REVERSE_HASH_SERVICE_ENABLED: {{ .Values.apiIssuerNode.configMap.issuerReverseHashServiceEnabled | quote }}
   ISSUER_ETHEREUM_URL: {{ .Values.issuerEthereumUrl }}
