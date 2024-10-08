@@ -87,7 +87,7 @@ apiUiIssuerNode:
     replicaCount: 1
     name: api-ui-issuer-node
     image:
-      repository:: wakeuplabs/issuernode-ui
+      repository: wakeuplabs/issuernode-ui
       tag: 5eed17b
     apiUi:
       containerName: api-ui
