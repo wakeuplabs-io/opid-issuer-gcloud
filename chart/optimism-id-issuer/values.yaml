@@ -452,6 +452,7 @@ ingress:
   enabled: true
   name: issuer-node-ingress
   annotations:
+    kubernetes.io/ingress.global-static-ip-name: issuer-global
   apphost:
     paths:
       - path: /
@@ -462,7 +463,6 @@ ingress:
       - path: /
         serviceName: ui-issuer-node-svc
         servicePort: 8080
-
   apihost:
     paths:
       - path: /
@@ -470,9 +470,9 @@ ingress:
         servicePort: 3001
 
 
-uidomain: ui.issuernode.opid.me
-appdomain: app.issuernode.opid.me
-apidomain: api.issuernode.opid.me
+uidomain: 34.120.234.21
+appdomain: 34.120.234.21
+apidomain: 34.120.234.21
 
 issuerEthereumUrl: https://optimism-sepolia.g.alchemy.com/v2/
 mainnet: false
