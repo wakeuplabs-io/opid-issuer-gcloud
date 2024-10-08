@@ -12,7 +12,7 @@ apiUiUsername: user
 apiUiPassword: password
 apiUsername: user
 apiPassword: password
-uiInsecure: false
+uiInsecure: true
 
 # domain
 staticIpName: "opid"
@@ -117,7 +117,7 @@ apiUiIssuerNode:
     replicaCount: 1
     name: api-ui-issuer-node
     image:
-      repository: wakeuplabs/issuernode-ui
+      repository: wakeuplabs/issuernode
       tag: 5eed17b
     apiUi:
       containerName: api-ui
@@ -244,7 +244,6 @@ pendingPublisherIssuerNode:
 
 # ingress
 ingress:
-  enabled: true
   name: issuer-node-ingress
   annotations:
   apphost:

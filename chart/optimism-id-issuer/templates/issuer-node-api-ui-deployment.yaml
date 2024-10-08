@@ -36,7 +36,7 @@ spec:
           command: {{ .Values.apiUiIssuerNode.deployment.init.command }}
       containers:
         - name: {{ .Values.apiUiIssuerNode.deployment.apiUi.containerName }}
-          image: {{ .Values.apiUiIssuerNode.deployment.image.repository }}:{{ .Values.apiUiIssuerNode.deployment.image.repository }}
+          image: {{ .Values.apiUiIssuerNode.deployment.image.repository }}:{{ .Values.apiUiIssuerNode.deployment.image.tag }}
           imagePullPolicy: {{ .Values.apiUiIssuerNode.deployment.apiUi.imagePullPolicy | quote }}
           ports:
           - containerPort: {{ .Values.apiUiIssuerNode.deployment.apiUi.containerPort }}
