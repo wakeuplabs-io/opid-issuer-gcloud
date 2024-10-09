@@ -35,7 +35,7 @@ apiIssuerNode:
     name: api-issuer-node
     image: 
       repository: wakeuplabs/issuernode
-      tag: 5eed17b
+      tag: '1.0.0'
     env:
       issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
       issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
@@ -118,7 +118,7 @@ apiUiIssuerNode:
     name: api-ui-issuer-node
     image:
       repository: wakeuplabs/issuernode
-      tag: 5eed17b
+      tag: '1.0.0'
     apiUi:
       containerName: api-ui
       env:
@@ -178,7 +178,7 @@ uiIssuerNode:
     name: ui-issuer-node
     image:
       repository: wakeuplabs/issuernode-ui
-      tag: 5eed17b
+      tag: '1.0.0'
     imagePullPolicy: Always
     uiconfigMapRef: issuer-node-ui-configmap
     containerName: ui
@@ -209,7 +209,7 @@ notificationsIssuerNode:
     name: notifications-issuer-node
     image:
       repository: wakeuplabs/issuernode
-      tag: 5eed17b
+      tag: '1.0.0'
     env:
       issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
       issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
@@ -229,7 +229,7 @@ pendingPublisherIssuerNode:
     name: pending-publisher-issuer-node
     image:
       repository: wakeuplabs/issuernode
-      tag: 5eed17b
+      tag: '1.0.0'
     env:
       issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
       issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
