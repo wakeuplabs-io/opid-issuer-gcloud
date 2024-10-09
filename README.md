@@ -4,7 +4,7 @@ Optimism ID issuer refers to the entity responsible for issuing unique identifie
 
 ## Architecture
 
-![Architecture diagram](resources/polygon-id-issuer-k8s-app-architecture.png)
+![Architecture diagram](resources/issuer-k8s-app-architecture.png)
 
 # Installation
 
