@@ -1,12 +1,41 @@
-issuernode_repository_image: wakeuplabs/issuernode
-issuernode_repository_tag: 5eed17b
-issuernode_ui_repository_image: wakeuplabs/issuernode-ui
-issuernode_ui_repository_tag: 5eed17b
+# general
+namespace: default
 
+# network
+mainnet: false
+issuerEthereumUrl: https://optimism-sepolia.g.alchemy.com/v2/...
+
+# auth
+uiUsername: user
+uiPassword: password
+apiUiUsername: user
+apiUiPassword: password
+apiUsername: user
+apiPassword: password
+uiInsecure: true
+
+# domain
+staticIpName: "opid"
+apphost: "app.34.54.152.126.nip.io" 
+uihost: "ui.34.54.152.126.nip.io"
+apihost: "api.34.54.152.126.nip.io"
+
+# identity
+issuerName: "OPID-ISSUER"
+privateKey: 0x.....
+vaultpwd: vault-password
+issuerKeyType: BJJ
+rhsMode: None
+rhsUrl: nil
+
+# api issuer
 apiIssuerNode:
   deployment:
     replicaCount: 1
     name: api-issuer-node
+    image: 
+      repository: wakeuplabs/issuernode
+      tag: '1.0.0'
     env:
       issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
       issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
@@ -41,11 +70,9 @@ apiIssuerNode:
       app: issuer-node
 
   configMap:
-    issuerApiAuthPassword: password
-    issuerApiAuthUser: user
     issuerCircuitPath: ./pkg/credentials/circuits
-    issuerDbName: platformid
-    issuerDbPassword: strongpasswordapp
+    issuerDbName: db
+    issuerDbPassword: password
     issuerDbPort: "5432"
     issuerDbUser: opid
     issuerEthereumConfirmationBlockCount: "10"
@@ -79,15 +106,19 @@ apiIssuerNode:
     issuerVaultUserpassAuthEnabled: "true"
     issuerCredentialStatusPublishingKeyPath: pbkey
     issuerIpfsGatewayUrl: https://ipfs.io
-    issuerRshContractSepolia: 0xa36D2Ed3Dd32B96979D94Ea4cb541059A2029484
+    issuerRshContractSepolia: "0xa36D2Ed3Dd32B96979D94Ea4cb541059A2029484"
     issuerRshContractMain: "TODO:"
     issuerRshChainIDMain: 10
     issuerRshChainIDSepolia: 11155420
   
+# api ui
 apiUiIssuerNode:
   deployment:
     replicaCount: 1
     name: api-ui-issuer-node
+    image:
+      repository: wakeuplabs/issuernode
+      tag: '1.0.0'
     apiUi:
       containerName: api-ui
       env:
@@ -136,49 +167,18 @@ apiUiIssuerNode:
     issuerApiIdentityMethod: opid
     issuerApiIdentityNetworkSepolia: sepolia
     issuerApiIdentityNetworkMain: main
-    issuerApiUiAuthPassword: password-api
-    issuerApiUiAuthUser: user-api
     issuerApiUiSchemaCache: "false"
     issuerApiUiServerPort: "3002"
     issuerApiName: issuer-node-api-ui-configmap
   
-
-notificationsIssuerNode:
-  deployment:
-    replicaCount: 1
-    name: notifications-issuer-node
-    env:
-      issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
-      issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
-    imagePullPolicy: IfNotPresent
-    labels: 
-      app: notifications-issuer-node-deployment
-    containerName: notifications
-    args: 
-      - '"./notifications"'
-    command:  
-      - '"sh", "-c"'
-
-pendingPublisherIssuerNode:
-  deployment:
-    replicaCount: 1
-    name: pending-publisher-issuer-node
-    env:
-      issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
-      issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
-    imagePullPolicy: Always
-    labels: 
-      app: pending-publisher-issuer-node-deployment
-    containerName: pending-publisher
-    args: 
-      - '"./pending_publisher"'
-    command:  
-      - '"sh", "-c"'
-
+# ui
 uiIssuerNode:
   deployment:
     replicaCount: 1
     name: ui-issuer-node
+    image:
+      repository: wakeuplabs/issuernode-ui
+      tag: '1.0.0'
     imagePullPolicy: Always
     uiconfigMapRef: issuer-node-ui-configmap
     containerName: ui
@@ -195,22 +195,80 @@ uiIssuerNode:
     nodePort: 30003
     selector: ui-issuer-node
   configMap:
-    issuerApiUiAuthPassword: password-api
-    issuerApiUiAuthUser: user-api
-    issuerApiUiIssuerName: my issuer k8s
-    issuerUiAuthUsername: user-ui
     issuerUiBlockExplorerUrlSepolia: https://sepolia-optimism.etherscan.io/
     issuerUiBlockExplorerUrlMain: https://optimistic.etherscan.io/
     issuerUiIpfsGatewayUrl: https://ipfs.io
     issuerApiUiName: issuer-node-ui-configmap
     issuerUiSchemaExplorerAndBuilderUrl: https://tools.privado.id
 
+
+# notifications
+notificationsIssuerNode:
+  deployment:
+    replicaCount: 1
+    name: notifications-issuer-node
+    image:
+      repository: wakeuplabs/issuernode
+      tag: '1.0.0'
+    env:
+      issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
+      issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
+    imagePullPolicy: IfNotPresent
+    labels: 
+      app: notifications-issuer-node-deployment
+    containerName: notifications
+    args: 
+      - '"./notifications"'
+    command:  
+      - '"sh", "-c"'
+
+# pending publisher
+pendingPublisherIssuerNode:
+  deployment:
+    replicaCount: 1
+    name: pending-publisher-issuer-node
+    image:
+      repository: wakeuplabs/issuernode
+      tag: '1.0.0'
+    env:
+      issuerDatabaseUrl: postgres://$(ISSUER_DB_USER):$(ISSUER_DB_PASSWORD)@postgres-issuer-node-svc:$(ISSUER_DB_PORT)/$(ISSUER_DB_NAME)?sslmode=disable
+      issuerKeyStoreAddress: http://vault-issuer-node-svc:$(ISSUER_KEY_STORE_PORT)
+    imagePullPolicy: Always
+    labels: 
+      app: pending-publisher-issuer-node-deployment
+    containerName: pending-publisher
+    args: 
+      - '"./pending_publisher"'
+    command:  
+      - '"sh", "-c"'
+
+# ingress
+ingress:
+  name: issuer-node-ingress
+  annotations:
+  apphost:
+    paths:
+      - path: /
+        serviceName: api-ui-issuer-node-svc
+        servicePort: 3002
+  uihost: 
+    paths:
+      - path: /
+        serviceName: ui-issuer-node-svc
+        servicePort: 8080
+  apihost:
+    paths:
+      - path: /
+        serviceName: api-issuer-node-svc
+        servicePort: 3001
+
+# postgres
 postgresIssuerNode:
   deployment:
     replicaCount: 1
     name: postgres-issuer-node
     image:
-      repository: gcr.io/polygon-public/polygon-id/postgres14
+      repository: gcr.io/polygon-public/polygon-id/postgres14 # TODO:
       # Overrides the image tag whose default is the chart appVersion.
       tag: '1.0'
     imagePullPolicy: IfNotPresent
@@ -237,8 +295,8 @@ postgresIssuerNode:
   configMap:
     initSql: |-
       ALTER USER opid SUPERUSER;
-    postgresDb: platformid
-    postgresPassword: strongpasswordapp
+    postgresDb: db
+    postgresPassword: password 
     postgresUser: opid
     postgresName: postgres-secret  
   pvc:
@@ -248,6 +306,7 @@ postgresIssuerNode:
     volumeName: postgresdata
     postgres: postgresql-issuer-node-pvc
 
+# redis
 redisIssuerNode:
   deployment:
     replicaCount: 1
@@ -274,6 +333,7 @@ redisIssuerNode:
       targetPort: 6379
     selector: redis-issuer-node
     
+# vault
 vaultIssuerNode:
   deployment:
     replicaCount: 1
@@ -305,7 +365,7 @@ vaultIssuerNode:
           name: private-key-secret
           key: private-key
       image:
-        repository: gcr.io/polygon-public/polygon-id/vault
+        repository: gcr.io/polygon-public/polygon-id/vault # TODO:
         # Overrides the image tag whose default is the chart appVersion.
         tag: '1.0'
       imagePullPolicy: IfNotPresent
@@ -444,50 +504,8 @@ vaultIssuerNode:
         capabilities = ["create", "read", "update", "delete", "list"]
       }
 
+# secrets
 secrets:
   name: private-key-secret
   type: Opaque
 
-ingress:
-  enabled: true
-  name: issuer-node-ingress
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: opid
-  apphost:
-    paths:
-      - path: /
-        serviceName: api-ui-issuer-node-svc
-        servicePort: 3002
-  uihost: 
-    paths:
-      - path: /
-        serviceName: ui-issuer-node-svc
-        servicePort: 8080
-  apihost:
-    paths:
-      - path: /
-        serviceName: api-issuer-node-svc
-        servicePort: 3001
-
-
-uidomain: 34.54.152.126
-appdomain: 34.54.152.126
-apidomain: 34.54.152.126
-
-issuerEthereumUrl: https://optimism-sepolia.g.alchemy.com/v2/
-mainnet: false
-publicIP: nil
-uiPassword: password
-issuerUiInsecure: true
-issuerName: "My Issuer!"
-ingressEnabled: false
-privateKey: metamask private key
-vaultpwd: pepe
-namespace: default
-issuerKeyType: BJJ
-
-# RHS Params
-rhsMode: None
-rhsUrl: nil
-
-issuerCustomDidMethods: "[]"

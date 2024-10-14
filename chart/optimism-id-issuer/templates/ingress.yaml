@@ -5,14 +5,11 @@ metadata:
   labels:
     {{- include "optimism-id-issuer.staticLabel" . | nindent 4 }}
     {{- include "optimism-id-issuer.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml $.Values.ingress.annotations | nindent 4 }}
-  {{- end }}
-
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.staticIpName }}
 spec:
   rules:
-  - host: "app.34.54.152.126.nip.io"
+  - host: {{ .Values.apphost }}
     http:
       paths:
         {{- range .Values.ingress.apphost.paths }}
@@ -25,7 +22,7 @@ spec:
                 number: {{ .servicePort }}
         {{- end }}
 
-  - host: "ui.34.54.152.126.nip.io"
+  - host: {{ .Values.uihost }}
     http:
       paths:
         {{- range .Values.ingress.uihost.paths }}
@@ -38,7 +35,7 @@ spec:
                 number: {{ .servicePort }}
         {{- end }}
 
-  - host: "api.34.54.152.126.nip.io"
+  - host: {{ .Values.apihost }}
     http:
       paths:
         {{- range .Values.ingress.apihost.paths }}

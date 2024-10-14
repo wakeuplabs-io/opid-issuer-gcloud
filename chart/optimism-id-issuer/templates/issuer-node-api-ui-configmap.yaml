@@ -8,8 +8,8 @@ metadata:
 data:
   ISSUER_API_UI_SERVER_URL: {{ include "helpers.api-ui-server-url" . | nindent 4}}
   ISSUER_API_UI_SERVER_PORT: {{ .Values.apiUiIssuerNode.configMap.issuerApiUiServerPort | quote }}
-  ISSUER_API_UI_AUTH_PASSWORD: {{ .Values.apiUiIssuerNode.configMap.issuerApiUiAuthPassword }}
-  ISSUER_API_UI_AUTH_USER: {{ .Values.apiUiIssuerNode.configMap.issuerApiUiAuthUser }}
+  ISSUER_API_UI_AUTH_PASSWORD: {{ .Values.apiUiPassword }}
+  ISSUER_API_UI_AUTH_USER: {{ .Values.apiUiUsername }}
   ISSUER_API_UI_ISSUER_NAME: {{ .Values.issuerName }}
   ISSUER_API_UI_SCHEMA_CACHE: {{ .Values.apiUiIssuerNode.configMap.issuerApiUiSchemaCache | quote }}
   ISSUER_API_IDENTITY_BLOCKCHAIN: {{ .Values.apiUiIssuerNode.configMap.issuerApiIdentityBlockchain }}

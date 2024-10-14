@@ -20,7 +20,7 @@ spec:
       serviceAccountName: {{ include "helpers.serviceAccountName" . }}
       containers:
         - name: {{ .Values.notificationsIssuerNode.deployment.containerName }}
-          image: {{ .Values.issuernode_repository_image }}:{{ .Values.issuernode_repository_tag }}
+          image: {{ .Values.notificationsIssuerNode.deployment.image.repository }}:{{ .Values.notificationsIssuerNode.deployment.image.tag }}
           imagePullPolicy: {{ .Values.notificationsIssuerNode.deployment.imagePullPolicy | quote }}
           envFrom:
           - configMapRef:

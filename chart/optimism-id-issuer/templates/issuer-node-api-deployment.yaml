@@ -20,7 +20,7 @@ spec:
       serviceAccountName: {{ include "helpers.serviceAccountName" . }}
       containers:
         - name: {{ .Values.apiIssuerNode.deployment.containerName }}
-          image: {{ .Values.issuernode_repository_image }}:{{ .Values.issuernode_repository_tag }}
+          image: {{ .Values.apiIssuerNode.deployment.image.repository }}:{{ .Values.apiIssuerNode.deployment.image.tag }}
           imagePullPolicy: {{ .Values.apiIssuerNode.deployment.imagePullPolicy | quote }}
           ports:
           - containerPort: {{ .Values.apiIssuerNode.deployment.containerPort }}
