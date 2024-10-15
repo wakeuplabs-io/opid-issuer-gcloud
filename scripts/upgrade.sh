@@ -16,5 +16,5 @@ helm upgrade "$APP_INSTANCE_NAME" chart/optimism-id-issuer \
   --set issuerName="$ISSUER_NAME" \
   --set privateKey="$PRIVATE_KEY" \
   --set vaultpwd="$VAULT_PASSWORD" \
-  --set rhsmode="$RHS_MODE" \
-  --set rhsurl="$RHS_URL" 
+  --set rhsMode="$RHS_MODE" \
+  --set rhsUrl="$RHS_URL" 
