@@ -53,7 +53,7 @@ gcloud container clusters get-credentials $CLUSTER --region=$REGION --project $P
 
 For zonal clusters, use --zone=ZONE instead of --region=REGION.
 
-#### Requests a static ip
+#### Request a static ip
 
 ```sh
 gcloud compute addresses create ip-name --global
@@ -63,6 +63,29 @@ gcloud compute addresses describe ip-name --global
 # address: 203.0.113.32
 # ...
 ```
+
+#### Install application resource definition
+
+```
+kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
+```
+
+#### Add kubernetes service account
+Service account name is `${APP_INSTANCE_NAME}-default-service-account`
+```
+kubectl create serviceaccount --namespace default issuer-default-service-account 
+```
+
+## Enable workload identity on cluster
+
+If you want to do it through CLI, go ahead and follow [this link](https://cloud.google.com/apigee/docs/hybrid/v1.12/enable-workload-identity-gke)
+Through UI, under the cluster *details* tab, there should be a section which says Wokload Identity, it should be enabled.
+
+## Enable GKE Metadata Server on the node pool
+
+Once Workload Identity is enabled, under the cluster *nodes* tab, go into the node pool details and edit the node pool.
+
+Under the *security section*, the option *Enable GKE Metadata Server* should be enabled.
 
 ### Configure the app with environment variables
 
