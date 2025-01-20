@@ -43,12 +43,18 @@ export REGION=YOUR_REGION
 export ZONE=YOUR_ZONE
 
 gcloud container clusters create $CLUSTER --region=$REGION --project $PROJECT
+
+# example
+gcloud container clusters create opid-cluster --region=us-central1 --project=op-zk-identity --disk-size 50 --num-nodes 3
 ```
 
 Configure `kubectl` to connect to the new cluster.
 
 ```shell
 gcloud container clusters get-credentials $CLUSTER --region=$REGION --project $PROJECT
+
+# example
+gcloud container clusters get-credentials opid-cluster --region=us-central1 --project=op-zk-identity
 ```
 
 For zonal clusters, use --zone=ZONE instead of --region=REGION.
@@ -56,11 +62,18 @@ For zonal clusters, use --zone=ZONE instead of --region=REGION.
 #### Request a static ip
 
 ```sh
-gcloud compute addresses create ip-name --global
-gcloud compute addresses describe ip-name --global
+gcloud compute addresses create opid-node --global
+gcloud compute addresses describe opid-node --global
 
 # ...
-# address: 203.0.113.32
+# address: 34.49.6.252
+# addressType: EXTERNAL
+# ipVersion: IPV4
+# kind: compute#address
+# name: opid-node
+# networkTier: PREMIUM
+# selfLink: https://www.googleapis.com/compute/v1/projects/op-zk-identity/global/addresses/opid-node
+# status: RESERVED
 # ...
 ```
 
@@ -71,7 +84,9 @@ kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketpl
 ```
 
 #### Add kubernetes service account
+
 Service account name is `${APP_INSTANCE_NAME}-default-service-account`
+
 ```
 kubectl create serviceaccount --namespace default issuer-default-service-account 
 ```
@@ -79,7 +94,7 @@ kubectl create serviceaccount --namespace default issuer-default-service-account
 ## Enable workload identity on cluster
 
 If you want to do it through CLI, go ahead and follow [this link](https://cloud.google.com/apigee/docs/hybrid/v1.12/enable-workload-identity-gke)
-Through UI, under the cluster *details* tab, there should be a section which says Wokload Identity, it should be enabled.
+Through UI, under the cluster *details* tab, there should be a section which says Workload Identity, it should be enabled.
 
 ## Enable GKE Metadata Server on the node pool
 
@@ -102,15 +117,17 @@ export API_UI_USERNAME=user
 export API_UI_PASSWORD=password
 export API_USERNAME=user    
 export API_PASSWORD=password
-export STATIC_IP_NAME="opid"
-export APP_HOST=app.34.54.152.126.nip.io  
-export UI_HOST=ui.34.54.152.126.nip.io    
-export API_HOST=api.34.54.152.126.nip.io  
+export STATIC_IP_NAME="opid-node"
+export APP_HOST=app.34.49.6.252.nip.io  # Replace with your ip
+export UI_HOST=ui.34.49.6.252.nip.io    # Replace with your ip
+export API_HOST=api.34.49.6.252.nip.io  # Replace with your ip
 export ISSUER_NAME="OPID Issuer"
-export PRIVATE_KEY="5a814bcdce..."
+export PRIVATE_KEY="5a814bcdce11f2..."
 export VAULT_PASSWORD=password
-export RHS_MODE=OnChain
-export RHS_URL="..."
+export RHS_MODE="OffChain"
+export RHS_URL="http://a009ec078484b45e5b233cc29eab9f83-ff4fb4ecca77ee61.elb.us-east-1.amazonaws.com"
+
+
 ```
 
 ### Install the helm chart
