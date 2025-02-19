@@ -7,6 +7,9 @@ metadata:
     {{- include "optimism-id-issuer.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.global-static-ip-name: {{ .Values.staticIpName }}
+    networking.gke.io/managed-certificates: managed-cert
+    kubernetes.io/ingress.class: "gce"
+    networking.gke.io/v1beta.FrontendConfig: "http-to-https"
 spec:
   rules:
   - host: {{ .Values.apphost }}
@@ -47,3 +50,13 @@ spec:
               port:
                 number: {{ .servicePort }}
         {{- end }}
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: managed-cert
+spec:
+  domains:
+    - {{ .Values.apphost }}
+    - {{ .Values.uihost }}
+    - {{ .Values.apihost }}

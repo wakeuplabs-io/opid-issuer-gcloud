@@ -45,7 +45,7 @@ export ZONE=YOUR_ZONE
 gcloud container clusters create $CLUSTER --region=$REGION --project $PROJECT
 
 # example
-gcloud container clusters create opid-cluster --region=us-central1 --project=op-zk-identity --disk-size 50 --num-nodes 3
+gcloud beta container --project "op-zk-identity" clusters create "opid-cluster" --region "us-central1" --tier "standard" --no-enable-basic-auth --cluster-version "1.31.5-gke.1023000" --release-channel "regular" --machine-type "e2-medium" --image-type "COS_CONTAINERD" --disk-type "pd-balanced" --disk-size "50" --metadata disable-legacy-endpoints=true --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "1" --logging=SYSTEM,WORKLOAD --monitoring=SYSTEM,STORAGE,POD,DEPLOYMENT,STATEFULSET,DAEMONSET,HPA,CADVISOR,KUBELET --enable-ip-alias --network "projects/op-zk-identity/global/networks/default" --subnetwork "projects/op-zk-identity/regions/us-central1/subnetworks/default" --no-enable-intra-node-visibility --default-max-pods-per-node "110" --enable-ip-access --security-posture=standard --workload-vulnerability-scanning=disabled --no-enable-master-authorized-networks --no-enable-google-cloud-access --addons HorizontalPodAutoscaling,HttpLoadBalancing,GcePersistentDiskCsiDriver --enable-autoupgrade --enable-autorepair --max-surge-upgrade 1 --max-unavailable-upgrade 0 --binauthz-evaluation-mode=DISABLED --enable-managed-prometheus --workload-pool "op-zk-identity.svc.id.goog" --enable-shielded-nodes --node-locations "us-central1-a","us-central1-b","us-central1-c","us-central1-f"
 ```
 
 Configure `kubectl` to connect to the new cluster.
@@ -54,7 +54,7 @@ Configure `kubectl` to connect to the new cluster.
 gcloud container clusters get-credentials $CLUSTER --region=$REGION --project $PROJECT
 
 # example
-gcloud container clusters get-credentials opid-cluster --region=us-central1 --project=op-zk-identity
+gcloud container clusters get-credentials opid-cluster --region us-central1 --project op-zk-identity
 ```
 
 For zonal clusters, use --zone=ZONE instead of --region=REGION.
@@ -65,14 +65,14 @@ For zonal clusters, use --zone=ZONE instead of --region=REGION.
 gcloud compute addresses create opid-node --global
 gcloud compute addresses describe opid-node --global
 
-# ...
-# address: 34.49.6.252
+# address: 34.8.100.193
 # addressType: EXTERNAL
+# creationTimestamp: '2025-02-18T10:13:35.869-08:00'
+# description: ''
 # ipVersion: IPV4
 # kind: compute#address
 # name: opid-node
 # networkTier: PREMIUM
-# selfLink: https://www.googleapis.com/compute/v1/projects/op-zk-identity/global/addresses/opid-node
 # status: RESERVED
 # ...
 ```
@@ -117,17 +117,17 @@ export API_UI_USERNAME=user
 export API_UI_PASSWORD=password
 export API_USERNAME=user    
 export API_PASSWORD=password
-export STATIC_IP_NAME="opid-node"
-export APP_HOST=app.34.49.6.252.nip.io  # Replace with your ip
-export UI_HOST=ui.34.49.6.252.nip.io    # Replace with your ip
-export API_HOST=api.34.49.6.252.nip.io  # Replace with your ip
 export ISSUER_NAME="OPID Issuer"
 export PRIVATE_KEY="5a814bcdce11f2..."
 export VAULT_PASSWORD=password
 export RHS_MODE="OffChain"
 export RHS_URL="http://a009ec078484b45e5b233cc29eab9f83-ff4fb4ecca77ee61.elb.us-east-1.amazonaws.com"
+export STATIC_IP_NAME="opid-node"
 
-
+# In case you want to setup a custom domain just replace with it, for example app.mydomain.com, ui.mydomain.com, api.mydomain.com and then create an A record for each subdomain that points to the ip number (example 34.49.6.252)
+export APP_HOST=app.34.49.6.252.nip.io  
+export UI_HOST=ui.34.49.6.252.nip.io    
+export API_HOST=api.34.49.6.252.nip.io  
 ```
 
 ### Install the helm chart

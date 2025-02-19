@@ -102,14 +102,14 @@ Define network
 Define api ui server url
 */}}
 {{- define "helpers.api-ui-server-url" -}}
-http://{{ .Values.apphost }}
+https://{{ .Values.apphost }}
 {{- end }}
 
 {{/*
 Define api server url
 */}}
 {{- define "helpers.api-server-url" -}}
-http://{{ .Values.apihost }}
+https://{{ .Values.apihost }}
 {{- end }}
 
 {{/*
