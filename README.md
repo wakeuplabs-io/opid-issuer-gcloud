@@ -121,7 +121,7 @@ export ISSUER_NAME="OPID Issuer"
 export PRIVATE_KEY="5a814bcdce11f2..."
 export VAULT_PASSWORD=password
 export RHS_MODE="OffChain"
-export RHS_URL="http://a009ec078484b45e5b233cc29eab9f83-ff4fb4ecca77ee61.elb.us-east-1.amazonaws.com"
+export RHS_URL="https://opid-rhs.wakeuplabs.link"
 export STATIC_IP_NAME="opid-node"
 
 # In case you want to setup a custom domain just replace with it, for example app.mydomain.com, ui.mydomain.com, api.mydomain.com and then create an A record for each subdomain that points to the ip number (example 34.49.6.252)
